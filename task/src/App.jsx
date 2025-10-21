@@ -1,56 +1,46 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+
+// Pages
 import Home from "./pages/Home";
-import About from "./pages/About";
+import Task from "./pages/Task";
+import ApiList from "./pages/APIList";
+
+// Components
+import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Navbar from './components/Navbar';
-import Button from './components/Button';
-import Card from './components/Card';
-import TaskManager from './components/TaskManager';
 
 export default function App() {
-  const [page, setPage] = useState('home');
-  const [activeCard, setActiveCard] = useState(null); // track which card is active
+  const [page, setPage] = useState("home");
+  const [darkMode, setDarkMode] = useState(false);
 
-  const cards = [
-    { title: "Card 1", content: "This is the first card" },
-    { title: "Card 2", content: "This is the second card" },
-  ];
+  // Toggle dark mode
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+
+  // Add/remove dark mode class on body
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark"); 
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       {/* Navbar */}
-      <Navbar />
+      <Navbar
+        onNavigate={setPage}
+        currentPage={page}
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
+      />
 
       {/* Main content */}
-      <main className="flex-grow p-4">
-        {/* Page content */}
-        {page === 'home' && <Home />}
-        {page === 'about' && <About />}
-
-        {/* Navigation buttons */}
-        <div className="mt-4 flex gap-2">
-          <Button variant="primary" onClick={() => setPage('home')}>Home</Button>
-          <Button variant="secondary" onClick={() => setPage('about')}>About</Button>
-        </div>
-
-        {/* Cards with active state */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          {cards.map((card, index) => (
-            <Card
-              key={index}
-              title={card.title}
-              content={card.content}
-              active={activeCard === index}         // highlight if active
-              onClick={() => setActiveCard(index)}  // set active on click
-            />
-          ))}
-        </div>
-
-        {/* TaskManager component */}
-        <div className="mt-6">
-          <TaskManager />
-        </div>
+      <main className="flex-grow p-6">
+        {page === "home" && <Home />}
+        {page === "task" && <Task />}
+        {page === "api" && <ApiList />}
       </main>
 
       {/* Footer */}

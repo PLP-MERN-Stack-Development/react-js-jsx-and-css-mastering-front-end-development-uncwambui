@@ -1,9 +1,13 @@
-import React from "react";
+import React from 'react';
 
-export default function Footer() {
+const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-3 mt-8 text-center">
-      <p className="text-sm">© 2025 Task Manager App. All Rights Reserved.</p>
+    <footer className="bg-white dark:bg-gray-800 shadow mt-8">
+      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-gray-500 dark:text-gray-400">
+        © {new Date().getFullYear()} PLP Task Manager. All rights reserved.
+      </div>
     </footer>
   );
-}
+};
+
+export default Footer;
